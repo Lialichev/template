@@ -1,7 +1,7 @@
 global.$ = {
     gulp: require("gulp"),
     browsersync: require("browser-sync").create(),
-    packageJson: require('./package.json'),
+    packageJson: require("./package.json"),
     autoprefixer: require("gulp-autoprefixer"),
     babel: require("gulp-babel"),
     uglify: require("gulp-uglify"),
@@ -28,12 +28,42 @@ global.$ = {
     }
 };
 
-$.path.tasks.forEach(function(taskPath) {
+$.path.tasks.forEach(function (taskPath) {
     require(taskPath)();
 });
 
+// BUILD && DEVELOPMENT
+$.gulp.task("default",
+    $.gulp.series("clean",
+        "sprite",
+        $.gulp.parallel(
+            "html",
+            "add",
+            "styles",
+            "styles-vendor",
+            "favicons",
+            "images",
+            "scripts",
+            "scripts-vendor",
+            "server_conf"
+        ),
+        $.gulp.parallel(
+            "watch",
+            "serve"
+        )
+    ));
+
 // BUILD
-$.gulp.task("default", $.gulp.series("clean", "sprite",
-    $.gulp.parallel("html", "add", "styles", "styles-vendor", "favicons", "images", "scripts", "scripts-vendor", "server_conf"),
-    $.gulp.parallel("watch", "serve")
-));
+$.gulp.task("build",
+    $.gulp.series(
+        "clean",
+        "sprite",
+        "html",
+        "add",
+        "styles",
+        "styles-vendor",
+        "favicons",
+        "images",
+        "scripts",
+        "scripts-vendor"
+    ));

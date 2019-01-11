@@ -1,6 +1,6 @@
 module.exports = function() {
     $.gulp.task("images", function() {
-        return $.gulp.src(["./src/img/**/*.{jpg,jpeg,png,gif}", "!./src/img/svg/icons/*", "!./src/img/favicons/*.{jpg,jpeg,png,gif}"])
+        return $.gulp.src("./src/img/pictures/*")
             .pipe($.newer("./public/img/"))
             .pipe($.imagemin([
                 $.imagemin.gifsicle({interlaced: true}),
